@@ -10,13 +10,13 @@ script:
 
 after_success:
   - docker build -t deepcodersinc/multi-client ./client
-  - docker build -t deepcodersinc/multi-client ./nginx
-  - docker build -t deepcodersinc/multi-client ./server
-  - docker build -t deepcodersinc/multi-client ./worker
+  - docker build -t deepcodersinc/multi-nginx ./nginx
+  - docker build -t deepcodersinc/multi-server ./server
+  - docker build -t deepcodersinc/multi-worker ./worker
   #Login to Dockerhub
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   #Take the images and push to Dockerhub
   - docker push deepcodersinc/multi-client
-  - docker push deepcodersinc/multi-client
-  - docker push deepcodersinc/multi-client
-  - docker push deepcodersinc/multi-client
+  - docker push deepcodersinc/multi-nginx
+  - docker push deepcodersinc/multi-server
+  - docker push deepcodersinc/multi-worker
