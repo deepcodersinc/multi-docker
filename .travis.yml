@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t deepcodersinc/react-test -f ./client/Dockerfile.dev
+
+script:
+  - docker run -e CI=true USERNAME/react-test npm test
+
+after_success:
+  - docker build -t deepcodersinc/multi-client ./client
+  - docker build -t deepcodersinc/multi-client ./nginx
+  - docker build -t deepcodersinc/multi-client ./server
+  - docker build -t deepcodersinc/multi-client ./worker
+  #Login to Dockerhub
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  #Take the images and push to Dockerhub
+  - docker push deepcodersinc/multi-client
+  - docker push deepcodersinc/multi-client
+  - docker push deepcodersinc/multi-client
+  - docker push deepcodersinc/multi-client
